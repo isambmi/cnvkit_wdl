@@ -11,7 +11,7 @@ workflow CnvKit {
         Array[File] t_bais
         
         Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
-        String docker = "cnvkit_latest"
+        String docker = "etal/cnvkit:0.9.11"
         String project_name = "project" # will be used to name reference and aggregated segment files
         
     }

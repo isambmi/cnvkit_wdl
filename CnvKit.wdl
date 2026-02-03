@@ -12,7 +12,7 @@ workflow CnvKit {
         
         Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
         String docker = "etal/cnvkit:0.9.11"
-        String linux_docker = "alpine:3.23.3"
+        String linux_docker = "bitnami/minideb:trixie"
         String project_name = "project" # will be used to name reference and aggregated segment files
         
     }

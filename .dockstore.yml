@@ -1,0 +1,5 @@
+version: 1.2
+workflows:
+  - name: CnvKit
+    subclass: WDL
+    primaryDescriptorPath: /CnvKit.wdl

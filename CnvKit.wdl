@@ -1,7 +1,6 @@
 version 1.0
 workflow CnvKit {
     input {
-        # add bais to all tasks that need bams
         
         File fasta_gz
         Array[File] n_bams
@@ -38,7 +37,6 @@ workflow CnvKit {
             access_bed = Access.access_bed
     }
 
-    # start scatter here for all files
     scatter(bam in zip(n_bams, n_bais)) {
 
         call Coverage as NormalCoverage {

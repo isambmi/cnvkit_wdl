@@ -12,13 +12,15 @@ workflow CnvKit {
         
         Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
         String docker = "etal/cnvkit:0.9.11"
+        String linux_docker = "alpine:3.23.3"
         String project_name = "project" # will be used to name reference and aggregated segment files
         
     }
 
     call UnpackFasta {
         input:
-         fasta_gz = fasta_gz
+         fasta_gz = fasta_gz,
+         docker = linux_docker
     }
 
     call Access {
@@ -115,11 +117,16 @@ workflow CnvKit {
 task UnpackFasta{
     input {
         File fasta_gz
+        String docker
     }
 
     command <<<
         tar -xzvf ~{fasta_gz}
     >>>
+
+    runtime {
+        docker: docker
+    }
 
     output {
         File fasta = '~{basename(fasta_gz, ".tar.gz")}'

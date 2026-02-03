@@ -37,15 +37,15 @@ workflow CnvKit {
             access_bed = Access.access_bed
     }
 
-    scatter(bam in zip(n_bams, n_bais)) {
+    scatter(i in range(length(n_bams))) {
 
         call Coverage as NormalCoverage {
             input:
                 docker = docker,
                 n_proc = n_proc,
-                bam = bam.left,
-                bai = bam.right,
-                output_basename = basename(basename(bam.left, ".bam"), ".cram"),
+                bam = n_bams[i],
+                bai = n_bais[i],
+                output_basename = basename(basename(n_bams[i], ".bam"), ".cram"),
                 target_bed = AutoBin.target_bed,
                 antitarget_bed = AutoBin.antitarget_bed
         }
@@ -53,15 +53,15 @@ workflow CnvKit {
     }
     
     # tumor workflow
-    scatter(bam in zip(t_bams, t_bais)) {
+    scatter(i in range(length(t_bams))) {
 
         call Coverage as TumorCoverage {
             input:
                 docker = docker,
                 n_proc = n_proc,
-                bam = bam.left,
-                bai = bam.right,
-                output_basename = basename(basename(bam.left, ".bam"), ".cram"),
+                bam = t_bams[i],
+                bai = t_bais[i],
+                output_basename = basename(basename(t_bams[i], ".bam"), ".cram"),
                 target_bed = AutoBin.target_bed,
                 antitarget_bed = AutoBin.antitarget_bed
 

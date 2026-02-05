@@ -4,11 +4,9 @@ workflow CnvKit {
         
         File fasta_gz
         Array[File] n_bams
-        Array[File?] n_bais
         File ref_flat
         File intervals
         Array[File] t_bams
-        Array[File?] t_bais
         
         Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
         String docker = "etal/cnvkit:0.9.11"
@@ -33,7 +31,6 @@ workflow CnvKit {
         input:
             docker = docker,
             n_bams = n_bams,
-            n_bais = n_bais,
             ref_flat = ref_flat,
             intervals = intervals,
             access_bed = Access.access_bed
@@ -46,7 +43,6 @@ workflow CnvKit {
                 docker = docker,
                 n_proc = n_proc,
                 bam = n_bams[i],
-                bai = n_bais[i],
                 output_basename = basename(basename(n_bams[i], ".bam"), ".cram"),
                 target_bed = AutoBin.target_bed,
                 antitarget_bed = AutoBin.antitarget_bed
@@ -62,7 +58,6 @@ workflow CnvKit {
                 docker = docker,
                 n_proc = n_proc,
                 bam = t_bams[i],
-                bai = t_bais[i],
                 output_basename = basename(basename(t_bams[i], ".bam"), ".cram"),
                 target_bed = AutoBin.target_bed,
                 antitarget_bed = AutoBin.antitarget_bed
@@ -155,7 +150,6 @@ task Access {
 task AutoBin {
     input {
         Array[File] n_bams
-        Array[File?] n_bais
         File intervals
         File access_bed
         File ref_flat
@@ -185,7 +179,6 @@ task AutoBin {
 task Coverage {
     input {
         File bam
-        File? bai
         String output_basename
         File target_bed
         File antitarget_bed

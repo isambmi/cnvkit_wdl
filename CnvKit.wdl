@@ -121,6 +121,9 @@ task UnpackFasta{
 
     runtime {
         docker: docker
+        cpu: 1
+        memory: "3 GB"
+        disks: "local-disk 20 HDD"
     }
 
     output {
@@ -140,6 +143,9 @@ task Access {
 
     runtime {
         docker: docker
+        cpu: 1
+        memory: "3 GB"
+        disks: "local-disk 20 HDD"
     }
 
     output {
@@ -168,6 +174,9 @@ task AutoBin {
 
     runtime {
         docker: docker
+        cpu: 1
+        memory: "16 GB"
+        disks: "local-disk 100 HDD"
     }
 
     output {
@@ -203,6 +212,9 @@ task Coverage {
 
     runtime {
         docker: docker
+        cpu: 2
+        memory: "16 GB"
+        disks: "local-disk 20 HDD"
     }
 
     output {
@@ -229,6 +241,9 @@ task Fix {
 
     runtime {
         docker: docker
+        cpu: 1
+        memory: "16 GB"
+        disks: "local-disk 20 HDD"        
     }
 
     output {
@@ -253,6 +268,9 @@ task Segment {
 
     runtime {
         docker: docker
+        cpu: 1
+        memory: "16 GB"
+        disks: "local-disk 20 HDD"
     }
 
     output {
@@ -279,6 +297,9 @@ task Reference {
 
     runtime {
         docker: docker
+        cpu: 2
+        memory: "16 GB"
+        disks: "local-disk 100 HDD"
     }
 
     output {
@@ -301,6 +322,9 @@ task AggregateSegments {
 
     runtime {
         docker: docker
+        cpu: 1
+        memory: "16 GB"
+        disks: "local-disk 100 HDD"
     }
 
     output {

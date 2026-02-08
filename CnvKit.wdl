@@ -11,6 +11,8 @@ workflow CnvKit {
         Array[File?] t_bais
         
         Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
+        String autobin_hdds = "local-disk 100 HDD"
+        String ref_hdds = "local-disk 100 HDD"
         String docker = "etal/cnvkit:0.9.11"
         String linux_docker = "bitnami/minideb:trixie"
         String project_name = "project" # will be used to name reference and aggregated segment files
@@ -34,6 +36,7 @@ workflow CnvKit {
             docker = docker,
             n_bams = n_bams,
             n_bais = n_bais,
+            hdds = autobin_hdds,
             ref_flat = ref_flat,
             intervals = intervals,
             access_bed = Access.access_bed
@@ -92,6 +95,7 @@ workflow CnvKit {
     call Reference {
         input:
             docker = docker,
+            hdds = ref_hdds,
             targetcoverages = NormalCoverage.target_coverage,
             antitargetcoverages = NormalCoverage.antitarget_coverage,
             fasta = UnpackFasta.fasta,
@@ -167,6 +171,7 @@ task AutoBin {
         File ref_flat
         String docker
         String access_basename = basename(intervals, ".bed")
+        String hdds
     }
 
     command <<<
@@ -182,7 +187,7 @@ task AutoBin {
         docker: docker
         cpu: 1
         memory: "16 GB"
-        disks: "local-disk 100 HDD"
+        disks: hdds
     }
 
     output {
@@ -292,6 +297,7 @@ task Reference {
         File fasta
         String docker
         String project_name
+        String hdds
     }
 
     command <<<
@@ -306,7 +312,7 @@ task Reference {
         docker: docker
         cpu: 2
         memory: "16 GB"
-        disks: "local-disk 100 HDD"
+        disks: hdds
     }
 
     output {

@@ -40,9 +40,9 @@ task AutoBin {
         echo "wd:"
         pwd
 
-        su - root
-        echo "whoami?"
-        whoami
+        # su - root
+        # echo "whoami?"
+        # whoami
         ls -lha .
 
         bams=(~{sep=' ' n_bams})
@@ -53,10 +53,14 @@ task AutoBin {
             bam="${bams[$i]}"
             bai="${bais[$i]}"
             base="$(basename "$bam")"
+
+            bam="${bam/\/mnt\/disks\/cromwell_root/\/cromwell_root}"
+            bai="${bai/\/mnt\/disks\/cromwell_root/\/cromwell_root}"
+            
             echo $bam
             echo $bai
 
-            # mv BAM into working dir
+            # ln BAM into working dir
             ln "$bam" "./$base"
             ln "$bai" "./$base.bai"              # foo.bam.bai
 

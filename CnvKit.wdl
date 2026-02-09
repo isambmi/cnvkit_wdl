@@ -26,9 +26,6 @@ task AutoBin {
     input {
         Array[File] n_bams
         Array[File] n_bais
-        File intervals
-        File access_bed
-        File ref_flat
         String docker
         String access_basename = basename(intervals, ".bed")
         String hdds

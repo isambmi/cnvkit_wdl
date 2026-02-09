@@ -68,8 +68,10 @@ task AutoBin {
             # Symlink BAI using BOTH names CNVkit/samtools may look for
             mv "$bai" "./$base.bai"              # foo.bam.bai
 
+            echo "checking:"
             ls -l "./$base.bai" 
             ls -l "./$base"
+            echo "done checking"
 
             local_bams+=("./$base")
         done

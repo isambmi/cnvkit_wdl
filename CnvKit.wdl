@@ -43,8 +43,10 @@ task AutoBin {
         # echo "whoami?"
         # whoami
         ls -lha .
-        ls -lha dg.4DFC_3d449417-de6d-42cc-bdee-42c6f225210a
-        ls -lha dg.4DFC_02104e71-544d-492b-b864-d51cb6664159
+        # ls -lha dg.4DFC_3d449417-de6d-42cc-bdee-42c6f225210a
+        # ls -lha dg.4DFC_02104e71-544d-492b-b864-d51cb6664159
+
+        find -type f . -name "*.bam"
 
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})

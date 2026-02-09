@@ -66,6 +66,10 @@ task AutoBin {
             ln -sf "$bai" "./$base.bai"              # foo.bam.bai
             ln -sf "$bai" "./${base%.bam}.bai"       # foo.bai
 
+            ls "./$base.bai" 
+            ls "./${base%.bam}.bai" 
+            ls "$bai"
+
             touch "./$base.bai" "./${base%.bam}.bai"
 
             local_bams+=("./$base")

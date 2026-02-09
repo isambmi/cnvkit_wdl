@@ -69,6 +69,8 @@ task AutoBin {
             local_bams+=("./$base")
         done
 
+        echo ${local_bams[@]}
+
         cnvkit.py autobin \
             ${local_bams[@]}  \
             -t ~{intervals} \

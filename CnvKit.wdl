@@ -53,10 +53,12 @@ task AutoBin {
             bam="${bams[$i]}"
             bai="${bais[$i]}"
             base="$(basename "$bam")"
+            echo $bam
+            echo $bai
 
             # mv BAM into working dir
-            mv "$bam" "./$base"
-            mv "$bai" "./$base.bai"              # foo.bam.bai
+            ln "$bam" "./$base"
+            ln "$bai" "./$base.bai"              # foo.bam.bai
 
             echo "checking:"
             ls -l "./$base.bai" 

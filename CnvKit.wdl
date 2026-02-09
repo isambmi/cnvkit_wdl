@@ -45,9 +45,9 @@ task AutoBin {
 
     command <<<
         set -euo pipefail
-        
+
         echo "whoami?"
-        echo whoami
+        whoami
 
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})
@@ -60,11 +60,11 @@ task AutoBin {
         local_bams=()
         for i in "${!bams[@]}"; do
             echo $i
-            ls -l $bam
             bam="${bams[$i]}"
             bai="${bais[$i]}"
             base="$(basename "$bam")"
 
+            ls -l $bam
             # mv BAM into working dir
             mv "$bam" "./$base"
             mv "$bai" "./$base.bai"              # foo.bam.bai

@@ -57,8 +57,8 @@ task AutoBin {
             echo "bam and bai before:"
             echo $bam
             echo $bai
-            bam="${bam/\/mnt\/disks\/cromwell_root/\/.\/}"
-            bai="${bai/\/mnt\/disks\/cromwell_root/\/.\/}"
+            bam="${bam/\/mnt\/disks\/cromwell_root/\/.}"
+            bai="${bai/\/mnt\/disks\/cromwell_root/\/.}"
             echo "bam and bai after:"
             echo $bam
             echo $bai

@@ -44,6 +44,31 @@ task AutoBin {
     }
 
     command <<<
+
+        bams=(~{sep=' ' n_bams})
+        bais=(~{sep=' ' n_bais})
+
+        if [ "${#bams[@]}" -ne "${#bais[@]}" ]; then
+            echo "ERROR: n_bams and n_bais lengths differ: ${#bams[@]} vs ${#bais[@]}" >&2
+            exit 1
+        fi
+
+        local_bams=()
+        for i in "${!bams[@]}"; do
+            bam="${bams[$i]}"
+            bai="${bais[$i]}"
+            base="$(basename "$bam")"
+
+            # Symlink BAM into working dir
+            ln -sf "$bam" "./$base"
+
+            # Symlink BAI using BOTH names CNVkit/samtools may look for
+            ln -sf "$bai" "./$base.bai"              # foo.bam.bai
+            ln -sf "$bai" "./${base%.bam}.bai"       # foo.bai
+
+            local_bams+=("./$base")
+        done
+
         cnvkit.py autobin \
             ~{sep=" " n_bams} \
             -t ~{intervals} \

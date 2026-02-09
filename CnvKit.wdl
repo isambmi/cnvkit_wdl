@@ -27,7 +27,6 @@ task AutoBin {
         Array[File] n_bams
         Array[File] n_bais
         String docker
-        String access_basename = basename(intervals, ".bed")
         String hdds
     }
 
@@ -72,7 +71,7 @@ task AutoBin {
             local_bams+=("./$base")
         done
 
-        echo ${local_bams[@]} > "~{access_basename}.target.bed"
+        echo ${local_bams[@]} > this.target.bed
     >>>
 
     runtime {
@@ -83,6 +82,6 @@ task AutoBin {
     }
 
     output {
-        File target_bed = "~{access_basename}.target.bed"
+        File target_bed = "this.target.bed"
     }
 }

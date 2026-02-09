@@ -43,6 +43,7 @@ task AutoBin {
         # echo "whoami?"
         # whoami
         ls -lha .
+        ls -lha dg.4DFC_3d449417-de6d-42cc-bdee-42c6f225210a
 
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})
@@ -53,12 +54,15 @@ task AutoBin {
             bai="${bais[$i]}"
             base="$(basename "$bam")"
 
-            bam="${bam/\/mnt\/disks\/cromwell_root/\/cromwell_root}"
-            bai="${bai/\/mnt\/disks\/cromwell_root/\/cromwell_root}"
-            
+            echo "bam and bai before:"
             echo $bam
             echo $bai
-
+            bam="${bam/\/mnt\/disks\/cromwell_root/\/.\/}"
+            bai="${bai/\/mnt\/disks\/cromwell_root/\/.\/}"
+            echo "bam and bai after:"
+            echo $bam
+            echo $bai
+            
             # ln BAM into working dir
             ln "$bam" "./$base"
             ln "$bai" "./$base.bai"              # foo.bam.bai

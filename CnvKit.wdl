@@ -60,8 +60,8 @@ task AutoBin {
             ls -l $bam
             echo $bai
             ls -l $bai
-            bam="${bam/\/mnt\/disks\/cromwell_root/\/.}"
-            bai="${bai/\/mnt\/disks\/cromwell_root/\/.}"
+            bam="${bam/\/mnt\/disks\/cromwell_root/.}"
+            bai="${bai/\/mnt\/disks\/cromwell_root/.}"
             echo "bam and bai after:"
             echo $bam
             ls -l $bam

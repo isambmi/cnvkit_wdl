@@ -3,7 +3,7 @@ workflow CnvKit {
     input {
         
         Array[File] n_bams
-        Array[File?] n_bais
+        Array[File] n_bais
         File ref_flat
         File intervals
         File access_bed = "gs://fc-c65c86f4-557a-4693-abd8-9010a881c746/cnvkit:0.9.11.bed"
@@ -34,7 +34,7 @@ workflow CnvKit {
 task AutoBin {
     input {
         Array[File] n_bams
-        Array[File?] n_bais
+        Array[File] n_bais
         File intervals
         File access_bed
         File ref_flat

@@ -45,6 +45,9 @@ task AutoBin {
 
     command <<<
 
+        echo "whoami?"
+        echo whoami
+
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})
 
@@ -60,17 +63,13 @@ task AutoBin {
             base="$(basename "$bam")"
 
             # Symlink BAM into working dir
-            ln -sf "$bam" "./$base"
+            mv "$bam" "./$base"
 
             # Symlink BAI using BOTH names CNVkit/samtools may look for
-            ln -sf "$bai" "./$base.bai"              # foo.bam.bai
-            ln -sf "$bai" "./${base%.bam}.bai"       # foo.bai
+            mv "$bai" "./$base.bai"              # foo.bam.bai
 
-            ls "./$base.bai" 
-            ls "./${base%.bam}.bai" 
-            ls "$bai"
-
-            touch "./$base.bai" "./${base%.bam}.bai"
+            ls -l "./$base.bai" 
+            ls -l "./$base"
 
             local_bams+=("./$base")
         done

@@ -44,7 +44,8 @@ task AutoBin {
     }
 
     command <<<
-
+        set -euo pipefail
+        
         echo "whoami?"
         echo whoami
 
@@ -58,14 +59,14 @@ task AutoBin {
 
         local_bams=()
         for i in "${!bams[@]}"; do
+            echo $i
+            ls -l $bam
             bam="${bams[$i]}"
             bai="${bais[$i]}"
             base="$(basename "$bam")"
 
-            # Symlink BAM into working dir
+            # mv BAM into working dir
             mv "$bam" "./$base"
-
-            # Symlink BAI using BOTH names CNVkit/samtools may look for
             mv "$bai" "./$base.bai"              # foo.bam.bai
 
             echo "checking:"
@@ -75,8 +76,6 @@ task AutoBin {
 
             local_bams+=("./$base")
         done
-
-        echo ${local_bams[@]}
 
         cnvkit.py autobin \
             ${local_bams[@]}  \

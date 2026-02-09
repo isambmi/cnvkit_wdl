@@ -65,8 +65,8 @@ task AutoBin {
             base="$(basename "$bam")"
 
             # mv BAM into working dir
-            mv "$bam" "./$base"
-            mv "$bai" "./$base.bai"              # foo.bam.bai
+            sudo mv "$bam" "./$base"
+            sudo mv "$bai" "./$base.bai"              # foo.bam.bai
 
             echo "checking:"
             ls -l "./$base.bai" 

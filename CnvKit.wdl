@@ -31,7 +31,7 @@ task AutoBin {
     }
 
     command <<<
-        set -euo pipefail
+        # set -euo pipefail
 
 
         echo "whoami?"
@@ -44,6 +44,7 @@ task AutoBin {
         # whoami
         ls -lha .
         ls -lha dg.4DFC_3d449417-de6d-42cc-bdee-42c6f225210a
+        ls -lha dg.4DFC_02104e71-544d-492b-b864-d51cb6664159
 
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})
@@ -56,12 +57,16 @@ task AutoBin {
 
             echo "bam and bai before:"
             echo $bam
+            ls -l $bam
             echo $bai
+            ls -l $bai
             bam="${bam/\/mnt\/disks\/cromwell_root/\/.}"
             bai="${bai/\/mnt\/disks\/cromwell_root/\/.}"
             echo "bam and bai after:"
             echo $bam
+            ls -l $bam
             echo $bai
+            ls -l $bai
             
             # ln BAM into working dir
             ln "$bam" "./$base"

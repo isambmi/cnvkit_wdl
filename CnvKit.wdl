@@ -70,7 +70,7 @@ task AutoBin {
         done
 
         cnvkit.py autobin \
-            local_bams \
+            ${local_bams[@]}  \
             -t ~{intervals} \
             -g ~{access_bed} \
             --annotate ~{ref_flat} \

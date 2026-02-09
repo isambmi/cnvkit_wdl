@@ -64,7 +64,6 @@ task AutoBin {
             bai="${bais[$i]}"
             base="$(basename "$bam")"
 
-            ls -l $bam
             # mv BAM into working dir
             mv "$bam" "./$base"
             mv "$bai" "./$base.bai"              # foo.bam.bai

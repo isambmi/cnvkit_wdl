@@ -147,7 +147,7 @@ task Access {
     }
 
     command <<<
-        cnvkit.py access ~{fasta} -o ~{basename(basename(docker, ".fa"), ".fasta")}.bed
+        cnvkit.py access ~{fasta} -o ~{basename(basename(fasta, ".fa"), ".fasta")}.bed
     >>>
 
     runtime {
@@ -158,7 +158,7 @@ task Access {
     }
 
     output {
-        File access_bed = '~{basename(basename(docker, ".fa"), ".fasta")}.bed'
+        File access_bed = '~{basename(basename(fasta, ".fa"), ".fasta")}.bed'
     }
 }
 

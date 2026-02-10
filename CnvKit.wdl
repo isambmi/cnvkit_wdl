@@ -71,6 +71,8 @@ task AutoBin {
 
         ls -lah .
 
+        touch "./$base.bai"
+
         cnvkit.py autobin \
             ${local_bams[@]}  \
             -t ~{intervals} \

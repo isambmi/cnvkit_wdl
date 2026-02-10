@@ -9,7 +9,7 @@ workflow CnvKit {
         File access_bed = "gs://fc-c65c86f4-557a-4693-abd8-9010a881c746/cnvkit:0.9.11.bed"
         
         String autobin_hdds = "local-disk 100 HDD"
-        String docker = "etal/cnvkit:0.9.11"
+        String docker = "getwilds/cnvkit:0.9.10"
         String project_name = "project" # will be used to name reference and aggregated segment files
         
     }
@@ -44,6 +44,7 @@ task AutoBin {
     }
 
     command <<<
+        set -euo pipefail
 
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})
@@ -59,12 +60,9 @@ task AutoBin {
             bai="${bais[$i]}"
             base="$(basename "$bam")"
 
-            # Symlink BAM into working dir
-            ln -sf "$bam" "./$base"
-
-            # Symlink BAI using BOTH names CNVkit/samtools may look for
-            ln -sf "$bai" "./$base.bai"              # foo.bam.bai
-            ln -sf "$bai" "./${base%.bam}.bai"       # foo.bai
+            # hardlink BAM and BAI into working dir
+            ln "$bam" "./$base"
+            ln "$bai" "./$base.bai"              # foo.bam.bai
 
             local_bams+=("./$base")
         done

@@ -46,6 +46,8 @@ task AutoBin {
     command <<<
         set -euo pipefail
 
+        ls -lah .
+
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})
 
@@ -66,6 +68,8 @@ task AutoBin {
 
             local_bams+=("./$base")
         done
+
+        ls -lah .
 
         cnvkit.py autobin \
             ${local_bams[@]}  \

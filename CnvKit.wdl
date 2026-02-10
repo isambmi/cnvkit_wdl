@@ -46,7 +46,7 @@ task AutoBin {
         # ls -lha dg.4DFC_3d449417-de6d-42cc-bdee-42c6f225210a
         # ls -lha dg.4DFC_02104e71-544d-492b-b864-d51cb6664159
 
-        find . -name "*.bam"
+        find -type f . -name "*.bam"
 
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})
@@ -70,9 +70,9 @@ task AutoBin {
             echo $bai
             ls -l $bai
             
-            # cp BAM into working dir
-            cp "$bam" "./$base"
-            cp "$bai" "./$base.bai"              # foo.bam.bai
+            # ln BAM into working dir
+            ln "$bam" "./$base"
+            ln "$bai" "./$base.bai"              # foo.bam.bai
 
             echo "checking:"
             ls -l "./$base.bai" 

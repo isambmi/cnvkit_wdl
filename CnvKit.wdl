@@ -66,12 +66,12 @@ task AutoBin {
             ln "$bam" "./$base"
             ln "$bai" "./$base.bai"              # foo.bam.bai
 
+            touch "./$base.bai"
             local_bams+=("./$base")
         done
 
         ls -lah .
 
-        touch "./$base.bai"
 
         cnvkit.py autobin \
             ${local_bams[@]}  \

@@ -180,6 +180,8 @@ task AutoBin {
         bams=(~{sep=' ' n_bams})
         bais=(~{sep=' ' n_bais})
 
+        ls -lah .
+
         if [ "${#bams[@]}" -ne "${#bais[@]}" ]; then
             echo "ERROR: n_bams and n_bais lengths differ: ${#bams[@]} vs ${#bais[@]}" >&2
             exit 1
@@ -195,8 +197,13 @@ task AutoBin {
             ln "$bam" "./$base"
             ln "$bai" "./$base.bai"              # foo.bam.bai
 
+            # making sure index is newer
+            touch "./$base.bai"
+
             local_bams+=("./$base")
         done
+
+        ls -lah .
 
         cnvkit.py autobin \
             ${local_bams[@]}  \
@@ -235,6 +242,8 @@ task Coverage {
 
         ln "~{bam}" "./~{output_basename}.bam"
         ln "~{bai}" "./~{output_basename}.bam.bai"
+        
+        touch "./~{output_basename}.bam.bai"
 
         cnvkit.py coverage \
             ~{output_basename}.bam \

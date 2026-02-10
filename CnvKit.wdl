@@ -65,8 +65,10 @@ task AutoBin {
             # hardlink BAM and BAI into working dir
             ln "$bam" "./$base"
             ln "$bai" "./$base.bai"              # foo.bam.bai
+            ln "$bai" "./${base%.bam}.bai"              # foo.bai
 
             touch "./$base.bai"
+            touch "./${base%.bam}.bai"
             local_bams+=("./$base")
         done
 

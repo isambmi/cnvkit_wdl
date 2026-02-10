@@ -13,7 +13,7 @@ workflow CnvKit {
         Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
         String autobin_hdds = "local-disk 100 HDD"
         String ref_hdds = "local-disk 100 HDD"
-        String docker = "etal/cnvkit:0.9.11"
+        String docker = "getwilds/cnvkit:0.9.10"
         String linux_docker = "bitnami/minideb:trixie"
         String project_name = "project" # will be used to name reference and aggregated segment files
         
@@ -175,8 +175,31 @@ task AutoBin {
     }
 
     command <<<
+        set -euo pipefail
+
+        bams=(~{sep=' ' n_bams})
+        bais=(~{sep=' ' n_bais})
+
+        if [ "${#bams[@]}" -ne "${#bais[@]}" ]; then
+            echo "ERROR: n_bams and n_bais lengths differ: ${#bams[@]} vs ${#bais[@]}" >&2
+            exit 1
+        fi
+
+        local_bams=()
+        for i in "${!bams[@]}"; do
+            bam="${bams[$i]}"
+            bai="${bais[$i]}"
+            base="$(basename "$bam")"
+
+            # create hardlink for bam and bai in wd
+            ln "$bam" "./$base"
+            ln "$bai" "./$base.bai"              # foo.bam.bai
+
+            local_bams+=("./$base")
+        done
+
         cnvkit.py autobin \
-            ~{sep=" " n_bams} \
+            ${local_bams[@]}  \
             -t ~{intervals} \
             -g ~{access_bed} \
             --annotate ~{ref_flat} \
@@ -209,14 +232,19 @@ task Coverage {
     }
 
     command <<<
+        base="${basename "~{bam}"}"
+
+        ln "~{bam}" "./~{output_basename}.bam"
+        ln "~{bai}" "./~{output_basename}.bam.bai"
+
         cnvkit.py coverage \
-            ~{bam} \
+            ~{output_basename}.bam \
             ~{target_bed} \
             -p ~{n_proc} \
             -o ~{output_basename}.targetcoverage.cnn
         
         cnvkit.py coverage \
-            ~{bam} \
+            ~{output_basename}.bam \
             ~{antitarget_bed} \
             -p ~{n_proc} \
             -o ~{output_basename}.antitargetcoverage.cnn

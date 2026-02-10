@@ -4,11 +4,11 @@ workflow CnvKit {
         
         File fasta_gz
         Array[File] n_bams
-        Array[File?] n_bais
+        Array[File] n_bais
         File ref_flat
         File intervals
         Array[File] t_bams
-        Array[File?] t_bais
+        Array[File] t_bais
         
         Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
         String autobin_hdds = "local-disk 100 HDD"
@@ -165,7 +165,7 @@ task Access {
 task AutoBin {
     input {
         Array[File] n_bams
-        Array[File?] n_bais
+        Array[File] n_bais
         File intervals
         File access_bed
         File ref_flat
@@ -222,7 +222,7 @@ task AutoBin {
 task Coverage {
     input {
         File bam
-        File? bai
+        File bai
         String output_basename
         File target_bed
         File antitarget_bed

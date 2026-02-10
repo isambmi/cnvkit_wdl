@@ -232,7 +232,6 @@ task Coverage {
     }
 
     command <<<
-        base="${basename "~{bam}"}"
 
         ln "~{bam}" "./~{output_basename}.bam"
         ln "~{bai}" "./~{output_basename}.bam.bai"

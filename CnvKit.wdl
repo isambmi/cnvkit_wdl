@@ -10,9 +10,10 @@ workflow CnvKit {
         Array[File] t_bams
         Array[File] t_bais
         
-        Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
+        Int coverage_cpu = 8 
+        Int segment_cpu = 3 
         String autobin_hdds = "local-disk 35 HDD"
-        String ref_hdds = "local-disk 100 HDD"
+        String ref_hdds = "local-disk 5 HDD"
         String docker = "getwilds/cnvkit:0.9.10"
         String linux_docker = "bitnami/minideb:trixie"
         String project_name = "project" # will be used to name reference and aggregated segment files
@@ -47,7 +48,7 @@ workflow CnvKit {
         call Coverage as NormalCoverage {
             input:
                 docker = docker,
-                n_proc = n_proc,
+                n_proc = coverage_cpu,
                 bam = n_bams[i],
                 bai = n_bais[i],
                 output_basename = basename(basename(n_bams[i], ".bam"), ".cram"),
@@ -63,7 +64,7 @@ workflow CnvKit {
         call Coverage as TumorCoverage {
             input:
                 docker = docker,
-                n_proc = n_proc,
+                n_proc = coverage_cpu,
                 bam = t_bams[i],
                 bai = t_bais[i],
                 output_basename = basename(basename(t_bams[i], ".bam"), ".cram"),
@@ -85,7 +86,7 @@ workflow CnvKit {
         call Segment {
             input:
                 cnr = Fix.cnr,
-                n_proc = n_proc,
+                n_proc = segment_cpu,
                 output_basename = basename(Fix.cnr, ".cnr"),
                 docker = docker
         }
@@ -260,7 +261,7 @@ task Coverage {
 
     runtime {
         docker: docker
-        cpu: 2
+        cpu: n_proc
         memory: "5 GB"
         disks: "local-disk 30 HDD"
     }
@@ -290,8 +291,8 @@ task Fix {
     runtime {
         docker: docker
         cpu: 1
-        memory: "16 GB"
-        disks: "local-disk 20 HDD"        
+        memory: "4 GB"
+        disks: "local-disk 2 HDD"        
     }
 
     output {
@@ -316,9 +317,9 @@ task Segment {
 
     runtime {
         docker: docker
-        cpu: 1
-        memory: "16 GB"
-        disks: "local-disk 20 HDD"
+        cpu: n_proc
+        memory: "4 GB"
+        disks: "local-disk 2 HDD"
     }
 
     output {
@@ -346,8 +347,8 @@ task Reference {
 
     runtime {
         docker: docker
-        cpu: 2
-        memory: "16 GB"
+        cpu: 1
+        memory: "4 GB"
         disks: hdds
     }
 
@@ -372,8 +373,8 @@ task AggregateSegments {
     runtime {
         docker: docker
         cpu: 1
-        memory: "16 GB"
-        disks: "local-disk 100 HDD"
+        memory: "4 GB"
+        disks: "local-disk 10 HDD"
     }
 
     output {

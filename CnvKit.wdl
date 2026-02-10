@@ -11,7 +11,7 @@ workflow CnvKit {
         Array[File] t_bais
         
         Int n_proc = 8 # number of subprocesses to run under `coverage` and `segment`
-        String autobin_hdds = "local-disk 100 HDD"
+        String autobin_hdds = "local-disk 35 HDD"
         String ref_hdds = "local-disk 100 HDD"
         String docker = "getwilds/cnvkit:0.9.10"
         String linux_docker = "bitnami/minideb:trixie"
@@ -131,8 +131,8 @@ task UnpackFasta{
     runtime {
         docker: docker
         cpu: 1
-        memory: "3 GB"
-        disks: "local-disk 20 HDD"
+        memory: "1 GB"
+        disks: "local-disk 5 HDD"
     }
 
     output {
@@ -152,9 +152,9 @@ task Access {
 
     runtime {
         docker: docker
-        cpu: 1
-        memory: "3 GB"
-        disks: "local-disk 20 HDD"
+        cpu: 2
+        memory: "2 GB"
+        disks: "local-disk 10 HDD"
     }
 
     output {
@@ -209,7 +209,7 @@ task AutoBin {
     runtime {
         docker: docker
         cpu: 1
-        memory: "16 GB"
+        memory: "5 GB"
         disks: hdds
     }
 
@@ -252,8 +252,8 @@ task Coverage {
     runtime {
         docker: docker
         cpu: 2
-        memory: "16 GB"
-        disks: "local-disk 20 HDD"
+        memory: "5 GB"
+        disks: "local-disk 30 HDD"
     }
 
     output {

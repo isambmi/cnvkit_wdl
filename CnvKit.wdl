@@ -4,8 +4,6 @@ workflow CnvKit {
         
         File bam
         File bai
-        File ref_flat
-        File intervals
         File target_bed
         File antitarget_bed
         
@@ -47,7 +45,7 @@ task Coverage {
     }
 
     Int bam_gb = ceil(size(bam, "GiB"))
-    Int disk_gb = select_first([disk_gb_override, bam_gb * disk_multiplier + disk_padding_gb])
+    Int disk_gb = select_first([disk_gb_override, ceil(bam_gb * disk_multiplier + disk_padding_gb)])
 
 
     command <<<

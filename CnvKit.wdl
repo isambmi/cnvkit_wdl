@@ -177,7 +177,7 @@ task AutoBin {
         File access_bed
         File ref_flat
         String docker
-        String access_basename = basename(intervals, ".bed")
+        String access_basename = basename(access_bed, ".bed")
         String output_basename = basename(basename(bam, ".bam"), ".cram")
         String hdds
     }

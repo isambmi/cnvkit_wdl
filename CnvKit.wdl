@@ -37,8 +37,8 @@ workflow CnvKit {
     call AutoBin {
         input:
             docker = docker,
-            median_bam = bam,
-            median_bai = bai,
+            bam = median_bam,
+            bai = median_bai,
             hdds = autobin_hdds,
             ref_flat = ref_flat,
             intervals = intervals,
@@ -174,7 +174,7 @@ task AutoBin {
         File ref_flat
         String docker
         String access_basename = basename(intervals, ".bed")
-        String output_basename = basename(basename(bam, ".bam"), ".cram"),
+        String output_basename = basename(basename(bam, ".bam"), ".cram")
         String hdds
     }
 

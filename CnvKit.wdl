@@ -115,8 +115,12 @@ workflow CnvKit {
 
     output {
         File reference = Reference.reference
-        # Array[File] cnr = Fix.cnr
+        Array[File] cnr = Fix.cnr
         Array[File] cns = Segment.cns
+        Array[File] t_target_coverage = TumorCoverage.target_coverage
+        Array[File] n_target_coverage = NormalCoverage.target_coverage
+        Array[File] t_antitarget_coverage = TumorCoverage.antitarget_coverage
+        Array[File] n_antitarget_coverage = NormalCoverage.antitarget_coverage
         File aggregated_segments = AggregateSegments.aggregated_segments
     }
 }

@@ -5,6 +5,8 @@ workflow CnvKit {
         File fasta_gz
         Array[File] n_bams
         Array[File] n_bais
+        File median_bam
+        File median_bai
         File ref_flat
         File intervals
         Array[File] t_bams
@@ -35,8 +37,8 @@ workflow CnvKit {
     call AutoBin {
         input:
             docker = docker,
-            n_bams = n_bams,
-            n_bais = n_bais,
+            median_bam = bam,
+            median_bai = bai,
             hdds = autobin_hdds,
             ref_flat = ref_flat,
             intervals = intervals,
@@ -165,49 +167,25 @@ task Access {
 
 task AutoBin {
     input {
-        Array[File] n_bams
-        Array[File] n_bais
+        File bam
+        File bai
         File intervals
         File access_bed
         File ref_flat
         String docker
         String access_basename = basename(intervals, ".bed")
+        String output_basename = basename(basename(bam, ".bam"), ".cram"),
         String hdds
     }
 
     command <<<
-        set -euo pipefail
+        ln "~{bam}" "./~{output_basename}.bam"
+        ln "~{bai}" "./~{output_basename}.bam.bai"
 
-        bams=(~{sep=' ' n_bams})
-        bais=(~{sep=' ' n_bais})
-
-        ls -lah .
-
-        if [ "${#bams[@]}" -ne "${#bais[@]}" ]; then
-            echo "ERROR: n_bams and n_bais lengths differ: ${#bams[@]} vs ${#bais[@]}" >&2
-            exit 1
-        fi
-
-        local_bams=()
-        for i in "${!bams[@]}"; do
-            bam="${bams[$i]}"
-            bai="${bais[$i]}"
-            base="$(basename "$bam")"
-
-            # create hardlink for bam and bai in wd
-            ln "$bam" "./$base"
-            ln "$bai" "./$base.bai"              # foo.bam.bai
-
-            # making sure index is newer
-            touch "./$base.bai"
-
-            local_bams+=("./$base")
-        done
-
-        ls -lah .
+        touch "./~{output_basename}.bam.bai"
 
         cnvkit.py autobin \
-            ${local_bams[@]}  \
+            "./~{output_basename}.bam" \
             -t ~{intervals} \
             -g ~{access_bed} \
             --annotate ~{ref_flat} \

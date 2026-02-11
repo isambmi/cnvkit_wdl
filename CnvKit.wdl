@@ -12,8 +12,8 @@ workflow CnvKit {
         Array[File] t_bams
         Array[File] t_bais
         
-        Int coverage_cpu = 8 
-        Int segment_cpu = 3 
+        Int coverage_cpu = 1 
+        Int segment_cpu = 1 
         String autobin_hdds = "local-disk 35 HDD"
         String ref_hdds = "local-disk 5 HDD"
         String docker = "getwilds/cnvkit:0.9.10"

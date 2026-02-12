@@ -1,10 +1,9 @@
-WDL running the distinct CNVkit steps (non-batch) before aggregating into one collective SEG file
+Tow options for running CNVKit:
 
-Steps run:
-- Access
-- AutoBin
-- Coverage (Normal and Tumor)
-- Fix
-- Segment
-- Reference
-- Aggregating segment files
+1. **End-to-end**: A single WDL running the distinct CNVkit steps (non-`batch`) using scatter-gather parallelization, outputing an aggregated SEG file
+Steps executed: Access, AutoBin, Coverage (tumor and normal), Fix, Segment, Reference, and Aggregation of segment files
+
+
+2. **Modular** (Recommended for large cloud-based cohorts to workaround timeouts): Separate WDLs for each processing stage. 
+
+Workflows: preprocess (Access and AutoBin) -> coverage (tumor and normal) -> reference (uses normal coverages) -> calling (Fix and Segment using tumor coverages and Reference)

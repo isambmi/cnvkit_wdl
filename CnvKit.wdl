@@ -41,8 +41,8 @@ task Coverage {
         Int n_proc
         String docker
         Int? disk_gb_override
-        Float disk_multiplier = 1.3
-        Int disk_padding_gb = 20
+        Float disk_multiplier = 1.25
+        Int disk_padding_gb = 5
     }
 
     Int bam_gb = ceil(size(bam, "GiB"))
@@ -72,7 +72,7 @@ task Coverage {
     runtime {
         docker: docker
         cpu: n_proc
-        memory: "5 GB"
+        memory: "2 GB"
         disks: "local-disk " + disk_gb + " HDD"
     }
 

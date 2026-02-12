@@ -6,6 +6,7 @@ workflow CnvKit {
         File bai
         File target_bed
         File antitarget_bed
+        File sample_id = basename(bam, ".bam")
         
         Int coverage_cpu = 1 
         String docker = "getwilds/cnvkit:0.9.10"
@@ -18,7 +19,7 @@ workflow CnvKit {
             n_proc = coverage_cpu,
             bam = bam,
             bai = bai,
-            output_basename = basename(bam, ".bam"),
+            sample_id = sample_id
             target_bed = target_bed,
             antitarget_bed = antitarget_bed
     }
@@ -33,7 +34,7 @@ task Coverage {
     input {
         File bam
         File bai
-        String output_basename
+        String sample_id
         File target_bed
         File antitarget_bed
         
@@ -50,22 +51,22 @@ task Coverage {
 
     command <<<
 
-        ln "~{bam}" "./~{output_basename}.bam"
-        ln "~{bai}" "./~{output_basename}.bam.bai"
+        ln "~{bam}" "./~{sample_id}.bam"
+        ln "~{bai}" "./~{sample_id}.bam.bai"
         
-        touch "./~{output_basename}.bam.bai"
+        touch "./~{sample_id}.bam.bai"
 
         cnvkit.py coverage \
-            ~{output_basename}.bam \
+            ~{sample_id}.bam \
             ~{target_bed} \
             -p ~{n_proc} \
-            -o ~{output_basename}.targetcoverage.cnn
+            -o ~{sample_id}.targetcoverage.cnn
         
         cnvkit.py coverage \
-            ~{output_basename}.bam \
+            ~{sample_id}.bam \
             ~{antitarget_bed} \
             -p ~{n_proc} \
-            -o ~{output_basename}.antitargetcoverage.cnn
+            -o ~{sample_id}.antitargetcoverage.cnn
     >>>
 
     runtime {
@@ -76,7 +77,7 @@ task Coverage {
     }
 
     output {
-        File target_coverage = "~{output_basename}.targetcoverage.cnn"
-        File antitarget_coverage = "~{output_basename}.antitargetcoverage.cnn"
+        File target_coverage = "~{sample_id}.targetcoverage.cnn"
+        File antitarget_coverage = "~{sample_id}.antitargetcoverage.cnn"
     }
 }

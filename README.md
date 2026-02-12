@@ -1,4 +1,4 @@
-Tow options for running CNVKit:
+Two options for running CNVKit:
 
 1. **End-to-end** (`CnvKit.wdl`): A single WDL running the distinct CNVkit steps (non-`batch`) using scatter-gather parallelization, outputing an aggregated SEG file
 

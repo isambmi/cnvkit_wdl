@@ -1,5 +1,9 @@
 version: 1.2
 workflows:
-  - name: CnvKit
+  - name: cnvkit-end-to-end
     subclass: WDL
     primaryDescriptorPath: /CnvKit.wdl
+    
+  - name: cnvkit-coverage
+    subclass: WDL
+    primaryDescriptorPath: /modular/CnvKitCoverage.wdl

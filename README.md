@@ -1,6 +1,7 @@
 Tow options for running CNVKit:
 
-1. **End-to-end**: A single WDL running the distinct CNVkit steps (non-`batch`) using scatter-gather parallelization, outputing an aggregated SEG file
+1. **End-to-end** (`CnvKit.wdl`): A single WDL running the distinct CNVkit steps (non-`batch`) using scatter-gather parallelization, outputing an aggregated SEG file
+
 Steps executed: Access, AutoBin, Coverage (tumor and normal), Fix, Segment, Reference, and Aggregation of segment files
 
 

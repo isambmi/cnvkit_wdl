@@ -26,7 +26,7 @@ workflow CnvKit {
     
     output {
         File target_coverage = Coverage.target_coverage
-        File antitarget_coverage = Coverage.target_coverage
+        File antitarget_coverage = Coverage.antitarget_coverage
     }
 }
 
